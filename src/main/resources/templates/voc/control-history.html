@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>차단기 수동제어 이력 - 파킹온</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/management.css}">
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header('VOC관리 → 차단기 수동제어 이력')}"></div>
+
+    <main class="management-container">
+        <!-- 좌측: 아파트 목록 -->
+        <aside class="management-sidebar">
+            <div class="sidebar-search">
+                <h3 class="sidebar-title">아파트명</h3>
+                <div class="search-input-group">
+                    <input type="text" class="form-input" placeholder="검색...">
+                    <button class="btn-primary">조회</button>
+                </div>
+            </div>
+
+            <div class="item-table-wrapper">
+                <table class="item-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">
+                                <input type="checkbox" id="apt-all">
+                            </th>
+                            <th>아파트 코드</th>
+                            <th>아파트명</th>
+                        </tr>
+                    </thead>
+                    <tbody id="apartmentList">
+                        <tr class="item-table-row" th:each="apt, iterStat : ${apartments}"
+                            th:classappend="${iterStat.index == 0} ? 'selected' : ''">
+                            <td>
+                                <input type="checkbox" th:id="'apt' + ${apt.id}"
+                                       th:checked="${iterStat.index == 0}">
+                            </td>
+                            <td class="item-code" th:text="${apt.code}">A1001234</td>
+                            <td class="item-name" th:text="${apt.name}">삼성1단지</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
+                <button class="btn-page active">1</button>
+                <button class="btn-page">2</button>
+                <button class="btn-page">3</button>
+                <button class="btn-page">4</button>
+                <button class="btn-page">5</button>
+                <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+            </div>
+        </aside>
+
+        <!-- 우측: 수동제어 이력 조회 -->
+        <div class="management-content">
+            <!-- 검색 바 -->
+            <div class="search-bar">
+                <div class="input-group">
+                    <label>조회기간</label>
+                    <input type="date" class="form-input" value="2025-10-21">
+                    <span>~</span>
+                    <input type="date" class="form-input" value="2025-10-21">
+                </div>
+
+                <div class="input-group">
+                    <label>제어 구분</label>
+                    <select class="form-select">
+                        <option>전체</option>
+                        <option>입차 허용</option>
+                        <option>입차 거부</option>
+                    </select>
+                </div>
+
+                <button class="btn-primary">조회</button>
+            </div>
+
+            <!-- 수동제어 이력 테이블 -->
+            <div class="data-grid">
+                <div class="grid-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>일시</th>
+                                <th>차량번호</th>
+                                <th>제어 구분</th>
+                                <th>게이트</th>
+                                <th>제어자</th>
+                                <th>사유</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="control : ${controls}" th:if="${controls != null}">
+                                <td th:text="${#temporals.format(control.controlTime, 'yyyy-MM-dd HH:mm:ss')}">2025-10-21 10:30:25</td>
+                                <td th:text="${control.carNumber}">12가1111</td>
+                                <td>
+                                    <span th:classappend="${control.controlType == '입차 허용'} ? 'badge-success' : 'badge-error'"
+                                          th:text="${control.controlType}">입차 허용</span>
+                                </td>
+                                <td th:text="${control.gateName}">정문</td>
+                                <td th:text="${control.controller}">관리자</td>
+                                <td th:text="${control.reason}">사전 승인된 방문차량</td>
+                            </tr>
+                            <tr th:if="${controls == null or controls.isEmpty()}">
+                                <td colspan="6" style="text-align: center;">제어 이력이 없습니다.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
+                    <button class="btn-page active">1</button>
+                    <button class="btn-page">2</button>
+                    <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script th:src="@{/js/control-history.js}"></script>
+</body>
+</html>

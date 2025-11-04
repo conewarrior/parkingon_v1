@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대시보드(근무자용) - 파킹온</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard-worker.css}">
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body class="dashboard-page">
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header('대시보드(근무자용)')}"></div>
+
+    <main class="dashboard-container">
+        <!-- 좌측: 아파트 목록 -->
+        <aside class="apartment-sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">아파트명</h2>
+                <button class="btn-search">조회</button>
+            </div>
+
+            <ul class="apartment-list" id="apartmentList">
+                <li class="apartment-item">
+                    <span class="status-indicator"></span>
+                    <div class="apt-info">
+                        <span class="apt-code">A1001234</span>
+                        <span class="apt-name">삼성1단지</span>
+                    </div>
+                </li>
+                <li class="apartment-item selected">
+                    <span class="status-indicator active"></span>
+                    <div class="apt-info">
+                        <span class="apt-code">A1001235</span>
+                        <span class="apt-name">삼성2단지</span>
+                    </div>
+                </li>
+                <li class="apartment-item">
+                    <span class="status-indicator"></span>
+                    <div class="apt-info">
+                        <span class="apt-code">A1001236</span>
+                        <span class="apt-name">정문인구 방문</span>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
+                <button class="btn-page active">1</button>
+                <button class="btn-page">2</button>
+                <button class="btn-page">3</button>
+                <button class="btn-page">4</button>
+                <button class="btn-page">5</button>
+                <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+            </div>
+        </aside>
+
+        <!-- 중앙: 메인 패널 -->
+        <div class="main-panel">
+            <!-- 상단 상태 표시줄 -->
+            <section class="status-bar">
+                <div class="status-grid">
+                    <div class="status-item">
+                        <span class="status-label">차단기</span>
+                        <span class="status-value normal">정상</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">시스템</span>
+                        <span class="status-value warning">점검</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">CPU</span>
+                        <span class="status-value">30%</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">메모리</span>
+                        <span class="status-value">40%</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">통신</span>
+                        <span class="status-value">20M</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">저장소</span>
+                        <span class="status-value">50/100</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CCTV 영역 -->
+            <section class="media-panel">
+                <h3 class="media-title">CCTV</h3>
+                <div class="media-viewer">
+                    <div class="media-placeholder">
+                        <p>CCTV 화면 영역</p>
+                        <p style="font-size: var(--text-xs);">320×180px</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 입차 이미지 영역 -->
+            <section class="media-panel">
+                <h3 class="media-title">입차이미지</h3>
+                <div class="media-viewer">
+                    <div class="media-placeholder">
+                        <p>입차 이미지 영역</p>
+                        <p style="font-size: var(--text-xs);">320×180px</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 우측: 컨트롤 패널 -->
+        <aside class="control-panel">
+            <!-- 차량번호 표시 -->
+            <div class="car-number-display">12가1234</div>
+
+            <!-- 이전 상담내역 -->
+            <div class="history-section">
+                <h4 class="history-title">이전 상담내역</h4>
+                <div class="history-list">
+                    <div class="history-item">
+                        <div class="history-time">10-14 21:20:21</div>
+                        <div class="history-content">102동 1004호...</div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-time">10-14 21:20:21</div>
+                        <div class="history-content">102동 1004호...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 상담 정보 입력 -->
+            <div class="consultation-form">
+                <div class="form-row">
+                    <label>단지명</label>
+                    <input type="text" class="form-input" value="아파트1 단지A" readonly>
+                </div>
+
+                <div class="form-row">
+                    <label>일시</label>
+                    <input type="datetime-local" class="form-input" value="2025-10-20T20:30:50" readonly>
+                </div>
+
+                <div class="form-row">
+                    <label>차량번호</label>
+                    <input type="text" class="form-input" value="12가1234">
+                </div>
+
+                <div class="form-row">
+                    <label>고객유형</label>
+                    <select class="form-select">
+                        <option>방문고객</option>
+                        <option>입주민</option>
+                        <option>출역</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label>방문목적</label>
+                    <select class="form-select">
+                        <option>방문</option>
+                        <option>배달</option>
+                        <option>택배</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label>동/호</label>
+                    <div class="dong-ho-group">
+                        <select class="form-select">
+                            <option>101</option>
+                            <option>102</option>
+                            <option>103</option>
+                        </select>
+                        <select class="form-select">
+                            <option>1002</option>
+                            <option>1003</option>
+                            <option>1004</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label>상담내역</label>
+                    <textarea class="form-textarea" rows="3"></textarea>
+                </div>
+            </div>
+
+            <!-- 차단기 제어 -->
+            <div class="gate-control">
+                <h4 class="gate-control-title">차단기 제어</h4>
+                <div class="gate-status">
+                    <div class="gate-option">
+                        <input type="radio" name="gate" value="open" id="gateOpen">
+                        <label for="gateOpen">열림</label>
+                    </div>
+                    <div class="gate-option">
+                        <input type="radio" name="gate" value="close" id="gateClose" checked>
+                        <label for="gateClose">닫힘</label>
+                    </div>
+                </div>
+                <button class="btn-gate-action">차단기 제어</button>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 하단 상태 바 -->
+    <div class="bottom-status-bar">
+        <span class="status-chip normal">방문차단이력: 정상</span>
+        <span class="status-chip normal">VOC이력: 정상</span>
+        <span class="status-chip normal">수동제어: 정상</span>
+        <span class="status-chip normal">검지차: 정상</span>
+    </div>
+
+    <!-- PBX 바 -->
+    <div class="pbx-bar">
+        PBX콜: 동아아파트
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script th:src="@{/js/dashboard-worker.js}"></script>
+</body>
+</html>

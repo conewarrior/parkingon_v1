@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOC 이력 (고객상담) - 파킹온</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/management.css}">
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header('VOC관리 → VOC 이력 (고객상담)')}"></div>
+
+    <main class="management-container">
+        <!-- 좌측: 아파트 목록 -->
+        <aside class="management-sidebar">
+            <div class="sidebar-search">
+                <h3 class="sidebar-title">아파트명</h3>
+                <div class="search-input-group">
+                    <input type="text" class="form-input" placeholder="검색...">
+                    <button class="btn-primary">조회</button>
+                </div>
+            </div>
+
+            <div class="item-table-wrapper">
+                <table class="item-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">
+                                <input type="checkbox" id="apt-all">
+                            </th>
+                            <th>아파트 코드</th>
+                            <th>아파트명</th>
+                        </tr>
+                    </thead>
+                    <tbody id="apartmentList">
+                        <tr class="item-table-row" th:each="apt, iterStat : ${apartments}"
+                            th:classappend="${iterStat.index == 0} ? 'selected' : ''">
+                            <td>
+                                <input type="checkbox" th:id="'apt' + ${apt.id}"
+                                       th:checked="${iterStat.index == 0}">
+                            </td>
+                            <td class="item-code" th:text="${apt.code}">A1001234</td>
+                            <td class="item-name" th:text="${apt.name}">삼성1단지</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
+                <button class="btn-page active">1</button>
+                <button class="btn-page">2</button>
+                <button class="btn-page">3</button>
+                <button class="btn-page">4</button>
+                <button class="btn-page">5</button>
+                <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+            </div>
+        </aside>
+
+        <!-- 우측: VOC 이력 조회 -->
+        <div class="management-content">
+            <!-- 검색 바 -->
+            <div class="search-bar">
+                <div class="input-group">
+                    <label>조회기간</label>
+                    <input type="date" id="startDate" class="form-input" value="2025-10-21">
+                    <span>~</span>
+                    <input type="date" id="endDate" class="form-input" value="2025-10-21">
+                    <div class="date-quick-buttons" style="display: flex; gap: 4px; margin-left: 8px;">
+                        <button type="button" class="btn-date-quick" data-days="0">오늘</button>
+                        <button type="button" class="btn-date-quick" data-days="7">1주일</button>
+                        <button type="button" class="btn-date-quick" data-days="30">1개월</button>
+                        <button type="button" class="btn-date-quick" data-days="90">3개월</button>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>고객구분</label>
+                    <select class="form-select">
+                        <option>전체</option>
+                        <option>입주민</option>
+                        <option>방문</option>
+                        <option>정기방문</option>
+                        <option>출역</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>차량번호</label>
+                    <input type="text" class="form-input" placeholder="차량번호 입력">
+                </div>
+
+                <button class="btn-primary">조회</button>
+            </div>
+
+            <!-- VOC 이력 테이블 -->
+            <div class="data-grid">
+                <div class="grid-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>조회기간</th>
+                                <th>고객구분</th>
+                                <th>상담구분</th>
+                                <th>등록일시</th>
+                                <th>차량번호</th>
+                                <th>상담내역</th>
+                                <th>호</th>
+                                <th>콜</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="voc : ${vocs}">
+                                <td th:text="${voc.customerType}">정기방문</td>
+                                <td th:text="${voc.visitPurpose}">정기방문인식</td>
+                                <td th:text="${voc.status}">입차</td>
+                                <td th:text="${#temporals.format(voc.createdAt, 'yyyy-MM-dd HH:mm:ss')}">2025-10-21 14:30:25</td>
+                                <td th:text="${voc.carNumber}">22가1234</td>
+                                <td th:text="${voc.content}">정기방문 차량 자동 입차</td>
+                                <td th:text="${voc.dong + '-' + voc.ho}">101-1002</td>
+                                <td>-</td>
+                            </tr>
+                            <tr th:if="${vocs == null or vocs.isEmpty()}">
+                                <td colspan="8" style="text-align: center;">VOC 이력이 없습니다.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
+                    <button class="btn-page active">1</button>
+                    <button class="btn-page">2</button>
+                    <button class="btn-page">3</button>
+                    <button class="btn-page">4</button>
+                    <button class="btn-page">5</button>
+                    <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script th:src="@{/js/voc-list.js}"></script>
+</body>
+</html>

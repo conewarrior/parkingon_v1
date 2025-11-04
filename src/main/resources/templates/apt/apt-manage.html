@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아파트 단지 관리 - 파킹온</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/management.css}">
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header('APT관리 → 아파트 단지 관리')}"></div>
+
+    <main class="management-container">
+        <!-- 좌측: 아파트 목록 -->
+        <aside class="management-sidebar">
+            <div class="sidebar-search">
+                <h3 class="sidebar-title">아파트명</h3>
+                <div class="search-input-group">
+                    <input type="text" class="form-input" placeholder="검색...">
+                    <button class="btn-primary">조회</button>
+                </div>
+            </div>
+
+            <div class="item-table-wrapper">
+                <table class="item-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">
+                                <input type="checkbox" id="apt-all">
+                            </th>
+                            <th>아파트 코드</th>
+                            <th>아파트명</th>
+                        </tr>
+                    </thead>
+                    <tbody id="apartmentList">
+                        <tr class="item-table-row" th:each="apt, iterStat : ${apartments}"
+                            th:classappend="${iterStat.index == 0} ? 'selected' : ''">
+                            <td>
+                                <input type="checkbox" th:id="'apt' + ${apt.id}"
+                                       th:checked="${iterStat.index == 0}">
+                            </td>
+                            <td class="item-code" th:text="${apt.code}">A1001234</td>
+                            <td class="item-name" th:text="${apt.name}">삼성1단지</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
+                <button class="btn-page active">1</button>
+                <button class="btn-page">2</button>
+                <button class="btn-page">3</button>
+                <button class="btn-page">4</button>
+                <button class="btn-page">5</button>
+                <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+            </div>
+        </aside>
+
+        <!-- 우측: 아파트 정보 입력 -->
+        <div class="management-content">
+            <form class="apartment-form">
+                <div class="form-grid">
+                    <!-- 기본 정보 -->
+                    <label class="form-field-label">아파트</label>
+                    <div class="input-group">
+                        <input type="text" class="form-input" value="삼성1단지">
+                        <button type="button" class="btn-secondary">추가</button>
+                    </div>
+
+                    <label class="form-field-label">아파트 코드</label>
+                    <div class="input-group">
+                        <input type="text" class="form-input" value="A1001234" id="aptCode">
+                        <button type="button" class="btn-secondary" onclick="checkDuplicate()">중복확인</button>
+                    </div>
+
+                    <label class="form-field-label">권역</label>
+                    <select class="form-select">
+                        <option>수도권</option>
+                        <option>강원권</option>
+                        <option>충청권</option>
+                        <option>남부권</option>
+                        <option>제주권</option>
+                    </select>
+
+                    <label class="form-field-label">관리소명</label>
+                    <input type="text" class="form-input" value="○○ 관리사무소">
+
+                    <label class="form-field-label">담당자명</label>
+                    <input type="text" class="form-input" value="홍길동">
+
+                    <label class="form-field-label">연락처</label>
+                    <input type="tel" class="form-input" value="00-0000-0000">
+
+                    <label class="form-field-label">영업담당자</label>
+                    <input type="text" class="form-input" value="김영업">
+
+                    <label class="form-field-label">영업담당자 연락처</label>
+                    <input type="tel" class="form-input" value="00-0000-0000">
+
+                    <label class="form-field-label">우편번호</label>
+                    <div class="input-group">
+                        <input type="text" class="form-input" value="12345">
+                        <button type="button" class="btn-secondary" onclick="searchAddress()">찾기</button>
+                    </div>
+
+                    <label class="form-field-label">주소</label>
+                    <input type="text" class="form-input" value="서울시 강남구">
+
+                    <label class="form-field-label">메모</label>
+                    <textarea class="form-textarea" rows="3"></textarea>
+                </div>
+
+                <!-- 운영 설정 -->
+                <h3 class="form-section-title" style="margin-top: var(--spacing-6);">운영 설정</h3>
+
+                <div class="policy-setting">
+                    <span class="policy-label">업무 시작 시간</span>
+                    <div class="policy-control">
+                        <input type="time" class="form-input" value="18:00">
+                        <button type="button" class="btn-secondary">기본값</button>
+                    </div>
+                </div>
+
+                <div class="policy-setting">
+                    <span class="policy-label">업무 종료 시간</span>
+                    <div class="policy-control">
+                        <input type="time" class="form-input" value="09:00">
+                    </div>
+                </div>
+
+                <div class="policy-setting">
+                    <span class="policy-label">차단기</span>
+                    <div class="policy-control">
+                        <select class="form-select">
+                            <option>정상 운영</option>
+                            <option>점검중</option>
+                            <option>사용안함</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="policy-setting">
+                    <span class="policy-label">블랙 리스트</span>
+                    <div class="policy-control">
+                        <select class="form-select">
+                            <option>입차 제한</option>
+                            <option>경고만</option>
+                            <option>사용안함</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="policy-setting">
+                    <span class="policy-label">화이트 리스트</span>
+                    <div class="policy-control">
+                        <select class="form-select">
+                            <option>자동 입차</option>
+                            <option>확인 후 입차</option>
+                            <option>사용안함</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="policy-setting">
+                    <span class="policy-label">주기적 방문차량</span>
+                    <div class="policy-control">
+                        <select class="form-select" style="max-width: 100px;">
+                            <option>10</option>
+                            <option>20</option>
+                            <option>30</option>
+                        </select>
+                        <span>일 이내</span>
+                        <select class="form-select" style="max-width: 100px;">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                        <span>회 이상 입차</span>
+                        <select class="form-select">
+                            <option>자동 입차</option>
+                            <option>확인 후 입차</option>
+                            <option>사용안함</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 저장 버튼 -->
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary">초기화</button>
+                    <button type="submit" class="btn-primary">저장</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script th:src="@{/js/apt-manage.js}"></script>
+</body>
+</html>

@@ -1,0 +1,340 @@
+/* ========================================
+   Dashboard Worker Styles
+   ======================================== */
+
+.dashboard-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Dashboard Container (3-column layout) */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 250px 1fr 320px;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4);
+    background: var(--bg-gray-light);
+    flex: 1;
+}
+
+/* Apartment Sidebar (Left) */
+.apartment-sidebar {
+    background: var(--bg-white);
+    border-radius: 8px;
+    padding: var(--spacing-4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-4);
+}
+
+.sidebar-title {
+    font-size: var(--text-base);
+    font-weight: 600;
+}
+
+.btn-search {
+    padding: var(--spacing-2) var(--spacing-3);
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: var(--text-sm);
+    cursor: pointer;
+}
+
+.apartment-list {
+    list-style: none;
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: var(--spacing-4);
+}
+
+.apartment-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-3);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: var(--spacing-2);
+}
+
+.apartment-item:hover {
+    background: var(--bg-gray-light);
+}
+
+.apartment-item.selected {
+    background: var(--bg-gray-light);
+    border-left: 3px solid var(--primary-blue);
+}
+
+.apt-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.apt-code {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+}
+
+.apt-name {
+    font-size: var(--text-sm);
+    font-weight: 500;
+}
+
+/* Main Content (Center) */
+.main-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+/* Status Bar */
+.status-bar {
+    background: var(--bg-white);
+    border-radius: 8px;
+    padding: var(--spacing-4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--spacing-3);
+}
+
+.status-item {
+    text-align: center;
+    padding: var(--spacing-2);
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+}
+
+.status-label {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-1);
+}
+
+.status-value {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.status-value.normal {
+    color: var(--status-success);
+}
+
+.status-value.warning {
+    color: var(--status-warning);
+}
+
+/* Media Panel */
+.media-panel {
+    background: var(--bg-white);
+    border-radius: 8px;
+    padding: var(--spacing-4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.media-title {
+    font-size: var(--text-base);
+    font-weight: 600;
+    margin-bottom: var(--spacing-3);
+}
+
+.media-viewer {
+    background: var(--bg-dark);
+    border-radius: 4px;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg-white);
+    margin-bottom: var(--spacing-4);
+}
+
+.media-placeholder {
+    text-align: center;
+    font-size: var(--text-sm);
+}
+
+/* Control Panel (Right) */
+.control-panel {
+    background: var(--bg-white);
+    border-radius: 8px;
+    padding: var(--spacing-4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+/* Car Number Display */
+.car-number-display {
+    text-align: center;
+    padding: var(--spacing-3);
+    background: var(--bg-gray-light);
+    border-radius: 4px;
+    font-size: var(--text-2xl);
+    font-weight: 700;
+}
+
+/* History List */
+.history-section {
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: var(--spacing-3);
+    margin-bottom: var(--spacing-3);
+}
+
+.history-title {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-bottom: var(--spacing-2);
+}
+
+.history-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.history-item {
+    padding: var(--spacing-2);
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    margin-bottom: var(--spacing-2);
+    font-size: var(--text-xs);
+}
+
+.history-time {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-1);
+}
+
+.history-content {
+    color: var(--text-primary);
+}
+
+/* Consultation Form */
+.consultation-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.form-row label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+}
+
+.dong-ho-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-2);
+}
+
+/* Gate Control */
+.gate-control {
+    border: 2px solid var(--primary-red);
+    border-radius: 8px;
+    padding: var(--spacing-4);
+    text-align: center;
+}
+
+.gate-control-title {
+    font-size: var(--text-base);
+    font-weight: 700;
+    margin-bottom: var(--spacing-3);
+    color: var(--primary-red);
+}
+
+.gate-status {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-3);
+}
+
+.gate-option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--text-sm);
+}
+
+.btn-gate-action {
+    width: 100%;
+    padding: var(--spacing-3);
+    background: var(--primary-red);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-gate-action:hover {
+    background: #c02936;
+}
+
+/* Bottom Status Bar */
+.bottom-status-bar {
+    background: var(--bg-white);
+    padding: var(--spacing-3) var(--spacing-4);
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    gap: var(--spacing-4);
+    flex-wrap: wrap;
+}
+
+.status-chip {
+    padding: var(--spacing-2) var(--spacing-3);
+    background: var(--bg-gray-light);
+    border-radius: 4px;
+    font-size: var(--text-sm);
+}
+
+.status-chip.normal {
+    background: #d1fae5;
+    color: var(--status-success);
+}
+
+/* PBX Bar */
+.pbx-bar {
+    background: var(--primary-blue);
+    color: white;
+    padding: var(--spacing-2) var(--spacing-4);
+    text-align: right;
+    font-size: var(--text-sm);
+}
+
+/* Mobile Responsive */
+@media (max-width: 1200px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
+    }
+
+    .apartment-sidebar,
+    .control-panel {
+        max-width: 100%;
+    }
+}

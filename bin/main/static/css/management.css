@@ -1,0 +1,268 @@
+/* ========================================
+   Management Pages Common Styles
+   ======================================== */
+
+/* 2-Column Layout with Sidebar */
+.management-container {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: var(--spacing-4);
+    padding: var(--spacing-4);
+    background: var(--bg-gray-light);
+    min-height: calc(100vh - 120px);
+}
+
+/* Sidebar (Left) */
+.management-sidebar {
+    background: var(--bg-white);
+    border-radius: 8px;
+    padding: var(--spacing-4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-search {
+    margin-bottom: var(--spacing-4);
+}
+
+.search-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.search-input-group input {
+    width: 100%;
+}
+
+/* Item Table */
+.item-table-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: var(--spacing-4);
+}
+
+.item-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+}
+
+.item-table thead th {
+    position: sticky;
+    top: 0;
+    background: var(--bg-gray-light);
+    padding: var(--spacing-2);
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-default);
+    z-index: 1;
+}
+
+.item-table tbody td {
+    padding: var(--spacing-2);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.item-table-row {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.item-table-row:hover {
+    background: var(--bg-gray-50);
+}
+
+.item-table-row.selected {
+    background: #E0F7FF;
+    border-left: 3px solid #00B0FF;
+}
+
+.item-table input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.item-code {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+}
+
+.item-name {
+    font-size: var(--text-sm);
+    font-weight: 500;
+}
+
+/* Main Content (Right) */
+.management-content {
+    background: var(--bg-white);
+    border-radius: 8px;
+    padding: var(--spacing-5);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Search Bar */
+.search-bar {
+    display: flex;
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Data Grid */
+.data-grid {
+    margin-bottom: var(--spacing-5);
+}
+
+.grid-wrapper {
+    overflow-x: auto;
+}
+
+/* Form Section */
+.form-section {
+    margin-top: var(--spacing-5);
+}
+
+.form-section-title {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    margin-bottom: var(--spacing-4);
+    padding-bottom: var(--spacing-3);
+    border-bottom: 2px solid var(--border-light);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: var(--spacing-4);
+    row-gap: var(--spacing-4);
+    align-items: start;
+}
+
+.form-field {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.form-field-label {
+    font-weight: 600;
+    font-size: var(--text-sm);
+}
+
+.form-field-input {
+    flex: 1;
+}
+
+/* Input Group */
+.input-group {
+    display: flex;
+    gap: var(--spacing-2);
+    align-items: center;
+}
+
+.input-group .form-input,
+.input-group .form-select {
+    flex: 1;
+}
+
+.input-group .btn-secondary {
+    flex-shrink: 0;
+}
+
+/* Date Quick Buttons */
+.btn-date-quick {
+    padding: var(--spacing-2) var(--spacing-3);
+    background: var(--bg-gray-light);
+    color: var(--text-primary);
+    border: 1px solid var(--border-default);
+    border-radius: 4px;
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-date-quick:hover {
+    background: var(--primary-blue);
+    color: var(--bg-white);
+    border-color: var(--primary-blue);
+}
+
+.btn-date-quick.active {
+    background: var(--primary-blue);
+    color: var(--bg-white);
+    border-color: var(--primary-blue);
+}
+
+/* Radio Group */
+.radio-group {
+    display: flex;
+    gap: var(--spacing-4);
+    align-items: center;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.radio-option input[type="radio"] {
+    cursor: pointer;
+}
+
+/* Form Actions */
+.form-actions {
+    margin-top: var(--spacing-5);
+    display: flex;
+    gap: var(--spacing-3);
+    justify-content: flex-end;
+}
+
+/* Time Range */
+.time-range {
+    display: flex;
+    gap: var(--spacing-2);
+    align-items: center;
+}
+
+/* Policy Settings */
+.policy-setting {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: var(--spacing-2);
+    align-items: center;
+    padding: var(--spacing-3);
+    background: var(--bg-gray-light);
+    border-radius: 4px;
+    margin-bottom: var(--spacing-2);
+}
+
+.policy-label {
+    font-weight: 600;
+    font-size: var(--text-sm);
+}
+
+.policy-control {
+    display: flex;
+    gap: var(--spacing-2);
+    align-items: center;
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+    .management-container {
+        grid-template-columns: 1fr;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .search-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

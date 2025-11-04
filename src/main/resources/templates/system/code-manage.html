@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공통코드 관리 - 파킹온</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/management.css}">
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header('시스템관리 → 공통코드 관리')}"></div>
+
+    <main class="management-container">
+        <!-- 좌측: 코드 그룹 목록 -->
+        <aside class="management-sidebar">
+            <div class="sidebar-search">
+                <h3 class="sidebar-title">코드 그룹</h3>
+                <div class="search-input-group">
+                    <input type="text" class="form-input" placeholder="검색...">
+                    <button class="btn-primary">조회</button>
+                </div>
+            </div>
+
+            <ul class="item-list">
+                <li class="item-list-item selected">
+                    <div>
+                        <div class="item-code">CUST_TYPE</div>
+                        <div class="item-name">고객구분</div>
+                    </div>
+                </li>
+                <li class="item-list-item">
+                    <div>
+                        <div class="item-code">CAR_TYPE</div>
+                        <div class="item-name">차량구분</div>
+                    </div>
+                </li>
+                <li class="item-list-item">
+                    <div>
+                        <div class="item-code">REGION</div>
+                        <div class="item-name">권역</div>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="pagination">
+                <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
+                <button class="btn-page active">1</button>
+                <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+            </div>
+        </aside>
+
+        <!-- 우측: 코드 상세 목록 및 입력 -->
+        <div class="management-content">
+            <!-- 코드 상세 목록 -->
+            <div class="data-grid">
+                <h3>코드 그룹: 고객구분 (CUST_TYPE)</h3>
+                <div class="grid-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>코드값</th>
+                                <th>코드명</th>
+                                <th>정렬순서</th>
+                                <th>사용여부</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="code : ${codes}">
+                                <td th:text="${code.codeValue}">RESIDENT</td>
+                                <td th:text="${code.codeName}">입주민</td>
+                                <td th:text="${code.sortOrder}">1</td>
+                                <td><span class="badge-success" th:text="${code.isActive ? 'Y' : 'N'}">Y</span></td>
+                            </tr>
+                            <tr th:if="${codes == null or codes.isEmpty()}">
+                                <td colspan="4" style="text-align: center;">등록된 코드가 없습니다.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 코드 등록/수정 폼 -->
+            <div class="form-section">
+                <form class="code-form">
+                    <div class="form-grid">
+                        <label class="form-field-label">코드값</label>
+                        <input type="text" class="form-input" value="RESIDENT">
+
+                        <label class="form-field-label">코드명</label>
+                        <input type="text" class="form-input" value="입주민">
+
+                        <label class="form-field-label">정렬순서</label>
+                        <input type="number" class="form-input" value="1">
+
+                        <label class="form-field-label">사용여부</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="isActive" value="Y" id="codeActiveY" checked>
+                                <label for="codeActiveY">사용</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="isActive" value="N" id="codeActiveN">
+                                <label for="codeActiveN">미사용</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary">초기화</button>
+                        <button type="submit" class="btn-primary">저장</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script th:src="@{/js/code-manage.js}"></script>
+</body>
+</html>

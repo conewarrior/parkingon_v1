@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>환경설정 - 파킹온</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/management.css}">
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header('시스템관리 → 환경설정')}"></div>
+
+    <main class="management-container">
+        <!-- 좌측: 설정 카테고리 -->
+        <aside class="management-sidebar">
+            <ul class="item-list" style="margin-bottom: 0;">
+                <li class="item-list-item selected">
+                    <div class="item-name">시스템 설정</div>
+                </li>
+                <li class="item-list-item">
+                    <div class="item-name">알림 설정</div>
+                </li>
+                <li class="item-list-item">
+                    <div class="item-name">보안 설정</div>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 우측: 설정 내용 -->
+        <div class="management-content">
+            <h2 class="form-section-title">시스템 설정</h2>
+
+            <form class="config-form">
+                <div class="policy-setting" th:each="config : ${configs}">
+                    <span class="policy-label" th:text="${config.configKey}">설정명</span>
+                    <div class="policy-control">
+                        <input type="text" class="form-input" th:value="${config.configValue}" style="max-width: 300px;">
+                        <span th:if="${config.description != null and !config.description.isEmpty()}"
+                              th:text="${config.description}" style="color: var(--text-secondary); margin-left: var(--spacing-2);"></span>
+                    </div>
+                </div>
+
+                <div th:if="${configs == null or configs.isEmpty()}" class="policy-setting">
+                    <span style="color: var(--text-secondary);">등록된 시스템 설정이 없습니다.</span>
+                </div>
+
+                <div class="policy-setting" style="display: none;">
+                    <span class="policy-label">페이지당 표시 행수</span>
+                    <div class="policy-control">
+                        <select class="form-select" style="max-width: 150px;">
+                            <option>10</option>
+                            <option selected>20</option>
+                            <option>50</option>
+                            <option>100</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary">초기화</button>
+                    <button type="submit" class="btn-primary">저장</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script th:src="@{/js/config.js}"></script>
+</body>
+</html>

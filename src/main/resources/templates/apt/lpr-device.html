@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>입/출구 관제기 - 파킹온</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/management.css}">
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header('APT관리 → 입/출구 관제기')}"></div>
+
+    <main class="management-container">
+        <!-- 좌측: 아파트 목록 -->
+        <aside class="management-sidebar">
+            <div class="sidebar-search">
+                <h3 class="sidebar-title">아파트명</h3>
+                <div class="search-input-group">
+                    <input type="text" class="form-input" placeholder="검색...">
+                    <button class="btn-primary">조회</button>
+                </div>
+            </div>
+
+            <div class="item-table-wrapper">
+                <table class="item-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">
+                                <input type="checkbox" id="apt-all">
+                            </th>
+                            <th>아파트 코드</th>
+                            <th>아파트명</th>
+                        </tr>
+                    </thead>
+                    <tbody id="apartmentList">
+                        <tr class="item-table-row" th:each="apt, iterStat : ${apartments}"
+                            th:classappend="${iterStat.index == 0} ? 'selected' : ''">
+                            <td>
+                                <input type="checkbox" th:id="'apt' + ${apt.id}"
+                                       th:checked="${iterStat.index == 0}">
+                            </td>
+                            <td class="item-code" th:text="${apt.code}">A1001234</td>
+                            <td class="item-name" th:text="${apt.name}">삼성1단지</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination">
+                <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
+                <button class="btn-page active">1</button>
+                <button class="btn-page">2</button>
+                <button class="btn-page">3</button>
+                <button class="btn-page">4</button>
+                <button class="btn-page">5</button>
+                <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+            </div>
+        </aside>
+
+        <!-- 우측: LPR 장비 목록 및 입력 -->
+        <div class="management-content" style="display: flex; flex-direction: column; gap: var(--spacing-4);">
+            <!-- 장비 목록 -->
+            <div class="data-grid" style="flex: 1; min-height: 0;">
+                <div class="grid-wrapper">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>관제종</th>
+                                <th>장비코드</th>
+                                <th>장비종류</th>
+                                <th>장비명</th>
+                                <th>장비URL</th>
+                                <th>Voip</th>
+                                <th>RTSP주소</th>
+                                <th>사용여부</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="device : ${devices}" th:if="${devices != null}">
+                                <td th:text="${device.apartment != null ? device.apartment.name : '-'}">삼성2단지</td>
+                                <td th:text="${device.deviceCode}">PK030</td>
+                                <td th:text="${device.deviceType}">입구LPR</td>
+                                <td th:text="${device.deviceName}">정문입구</td>
+                                <td th:text="${device.deviceUrl}">test.iptime.org:1234</td>
+                                <td th:text="${device.voip}">010-1234-5678</td>
+                                <td th:text="${device.rtspUrl}">rtsp://test...</td>
+                                <td><span class="badge-success" th:text="${device.isActive ? 'Y' : 'N'}">Y</span></td>
+                            </tr>
+                            <tr th:if="${devices == null or devices.isEmpty()}">
+                                <td colspan="8" style="text-align: center;">등록된 장비가 없습니다.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
+                    <button class="btn-page active">1</button>
+                    <button class="btn-page">2</button>
+                    <button class="btn-page">3</button>
+                    <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+                </div>
+            </div>
+
+            <!-- 장비 등록/수정 폼 -->
+            <div class="form-section" style="margin-top: 0; border-top: 2px solid var(--border-light); padding-top: var(--spacing-4);">
+                <form class="device-form">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-3); column-gap: var(--spacing-5);">
+                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: var(--spacing-2); align-items: center;">
+                            <label class="form-field-label">아파트명</label>
+                            <input type="text" class="form-input" value="삼성2단지" readonly>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: var(--spacing-2); align-items: center;">
+                            <label class="form-field-label">장비종류</label>
+                            <select class="form-select">
+                                <option>입구LPR</option>
+                                <option>출구LPR</option>
+                                <option>CCTV</option>
+                            </select>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: var(--spacing-2); align-items: center;">
+                            <label class="form-field-label">장비명</label>
+                            <input type="text" class="form-input" value="정문입구">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: var(--spacing-2); align-items: center;">
+                            <label class="form-field-label">장비URL</label>
+                            <input type="text" class="form-input" value="test.iptime.org:1234">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: var(--spacing-2); align-items: center;">
+                            <label class="form-field-label">Voip</label>
+                            <input type="tel" class="form-input" value="010-1234-5678">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: var(--spacing-2); align-items: center;">
+                            <label class="form-field-label">사용여부</label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" name="isActive" value="Y" id="activeY" checked>
+                                    <label for="activeY">사용</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="isActive" value="N" id="activeN">
+                                    <label for="activeN">미사용</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: var(--spacing-2); align-items: start; grid-column: 1 / -1;">
+                            <label class="form-field-label">RTSP주소</label>
+                            <div style="display: flex; gap: var(--spacing-2);">
+                                <input type="text" class="form-input" value="rtsp://test.iptime.org" style="flex: 1;">
+                                <input type="text" class="form-input" value="9654/profile2" style="flex: 1;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary">초기화</button>
+                        <button type="submit" class="btn-primary">저장</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <script th:src="@{/js/lpr-device.js}"></script>
+</body>
+</html>
