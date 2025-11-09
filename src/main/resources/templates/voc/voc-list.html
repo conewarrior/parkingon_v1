@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VOC 이력 (고객상담) - 파킹온</title>
+    <title>VOC 이력 - 파킹온</title>
     <link rel="icon" href="data:,">
     <link rel="stylesheet" th:href="@{/css/app.css}">
     <link rel="stylesheet" th:href="@{/css/management.css}">
@@ -11,7 +11,7 @@
 </head>
 <body>
     <!-- Header -->
-    <div th:replace="~{fragments/header :: header('VOC관리 → VOC 이력 (고객상담)')}"></div>
+    <div th:replace="~{fragments/header :: header('VOC관리 → VOC 이력')}"></div>
 
     <main class="management-container">
         <!-- 좌측: 아파트 목록 -->
@@ -51,6 +51,7 @@
 
             <!-- 페이지네이션 -->
             <div class="pagination">
+                <button class="btn-page btn-page-first" aria-label="첫 페이지"></button>
                 <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
                 <button class="btn-page active">1</button>
                 <button class="btn-page">2</button>
@@ -58,6 +59,7 @@
                 <button class="btn-page">4</button>
                 <button class="btn-page">5</button>
                 <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+                <button class="btn-page btn-page-last" aria-label="마지막 페이지"></button>
             </div>
         </aside>
 
@@ -70,12 +72,6 @@
                     <input type="date" id="startDate" class="form-input" value="2025-10-21">
                     <span>~</span>
                     <input type="date" id="endDate" class="form-input" value="2025-10-21">
-                    <div class="date-quick-buttons" style="display: flex; gap: 4px; margin-left: 8px;">
-                        <button type="button" class="btn-date-quick" data-days="0">오늘</button>
-                        <button type="button" class="btn-date-quick" data-days="7">1주일</button>
-                        <button type="button" class="btn-date-quick" data-days="30">1개월</button>
-                        <button type="button" class="btn-date-quick" data-days="90">3개월</button>
-                    </div>
                 </div>
 
                 <div class="input-group">
@@ -103,26 +99,26 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>조회기간</th>
-                                <th>고객구분</th>
+                                <th>고객유형</th>
                                 <th>상담구분</th>
-                                <th>등록일시</th>
+                                <th>발생일시</th>
                                 <th>차량번호</th>
                                 <th>상담내역</th>
+                                <th>동</th>
                                 <th>호</th>
-                                <th>콜</th>
+                                <th>접수자</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="voc : ${vocs}">
                                 <td th:text="${voc.customerType}">정기방문</td>
                                 <td th:text="${voc.visitPurpose}">정기방문인식</td>
-                                <td th:text="${voc.status}">입차</td>
                                 <td th:text="${#temporals.format(voc.createdAt, 'yyyy-MM-dd HH:mm:ss')}">2025-10-21 14:30:25</td>
                                 <td th:text="${voc.carNumber}">22가1234</td>
                                 <td th:text="${voc.content}">정기방문 차량 자동 입차</td>
-                                <td th:text="${voc.dong + '-' + voc.ho}">101-1002</td>
-                                <td>-</td>
+                                <td th:text="${voc.dong}">101</td>
+                                <td th:text="${voc.ho}">1002</td>
+                                <td th:text="${voc.createdBy != null ? voc.createdBy : '-'}">홍길동</td>
                             </tr>
                             <tr th:if="${vocs == null or vocs.isEmpty()}">
                                 <td colspan="8" style="text-align: center;">VOC 이력이 없습니다.</td>
@@ -132,6 +128,7 @@
                 </div>
 
                 <div class="pagination">
+                    <button class="btn-page btn-page-first" aria-label="첫 페이지"></button>
                     <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
                     <button class="btn-page active">1</button>
                     <button class="btn-page">2</button>
@@ -139,6 +136,7 @@
                     <button class="btn-page">4</button>
                     <button class="btn-page">5</button>
                     <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+                    <button class="btn-page btn-page-last" aria-label="마지막 페이지"></button>
                 </div>
             </div>
         </div>

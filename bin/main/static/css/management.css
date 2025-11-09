@@ -86,11 +86,13 @@
 .item-code {
     font-size: var(--text-sm);
     color: var(--text-secondary);
+    white-space: nowrap;
 }
 
 .item-name {
     font-size: var(--text-sm);
     font-weight: 500;
+    white-space: nowrap;
 }
 
 /* Main Content (Right) */
@@ -149,6 +151,7 @@
 .form-field-label {
     font-weight: 600;
     font-size: var(--text-sm);
+    white-space: nowrap;
 }
 
 .form-field-input {
@@ -169,6 +172,11 @@
 
 .input-group .btn-secondary {
     flex-shrink: 0;
+}
+
+.input-group span {
+    white-space: nowrap;
+    font-size: var(--text-sm);
 }
 
 /* Date Quick Buttons */
@@ -243,6 +251,7 @@
 .policy-label {
     font-weight: 600;
     font-size: var(--text-sm);
+    white-space: nowrap;
 }
 
 .policy-control {
@@ -251,7 +260,12 @@
     align-items: center;
 }
 
-/* Mobile Responsive */
+.policy-control span {
+    white-space: nowrap;
+    font-size: var(--text-sm);
+}
+
+/* Mobile Responsive - Updated */
 @media (max-width: 1024px) {
     .management-container {
         grid-template-columns: 1fr;

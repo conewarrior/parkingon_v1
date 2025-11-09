@@ -17,38 +17,61 @@
         <!-- 좌측: 코드 그룹 목록 -->
         <aside class="management-sidebar">
             <div class="sidebar-search">
-                <h3 class="sidebar-title">코드 그룹</h3>
+                <h3 class="sidebar-title">코드그룹명</h3>
                 <div class="search-input-group">
                     <input type="text" class="form-input" placeholder="검색...">
                     <button class="btn-primary">조회</button>
                 </div>
             </div>
 
-            <ul class="item-list">
-                <li class="item-list-item selected">
-                    <div>
-                        <div class="item-code">CUST_TYPE</div>
-                        <div class="item-name">고객구분</div>
-                    </div>
-                </li>
-                <li class="item-list-item">
-                    <div>
-                        <div class="item-code">CAR_TYPE</div>
-                        <div class="item-name">차량구분</div>
-                    </div>
-                </li>
-                <li class="item-list-item">
-                    <div>
-                        <div class="item-code">REGION</div>
-                        <div class="item-name">권역</div>
-                    </div>
-                </li>
-            </ul>
+            <div class="item-table-wrapper">
+                <table class="item-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">
+                                <input type="checkbox" id="code-all">
+                            </th>
+                            <th>코드그룹코드</th>
+                            <th>코드그룹명</th>
+                        </tr>
+                    </thead>
+                    <tbody id="codeGroupList">
+                        <tr class="item-table-row selected">
+                            <td>
+                                <input type="checkbox" id="code1" checked>
+                            </td>
+                            <td class="item-code">CUST_TYPE</td>
+                            <td class="item-name">고객구분</td>
+                        </tr>
+                        <tr class="item-table-row">
+                            <td>
+                                <input type="checkbox" id="code2">
+                            </td>
+                            <td class="item-code">CAR_TYPE</td>
+                            <td class="item-name">차량구분</td>
+                        </tr>
+                        <tr class="item-table-row">
+                            <td>
+                                <input type="checkbox" id="code3">
+                            </td>
+                            <td class="item-code">REGION</td>
+                            <td class="item-name">권역</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
+            <!-- 페이지네이션 -->
             <div class="pagination">
+                <button class="btn-page btn-page-first" aria-label="첫 페이지"></button>
                 <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
                 <button class="btn-page active">1</button>
+                <button class="btn-page">2</button>
+                <button class="btn-page">3</button>
+                <button class="btn-page">4</button>
+                <button class="btn-page">5</button>
                 <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+                <button class="btn-page btn-page-last" aria-label="마지막 페이지"></button>
             </div>
         </aside>
 
@@ -56,11 +79,11 @@
         <div class="management-content">
             <!-- 코드 상세 목록 -->
             <div class="data-grid">
-                <h3>코드 그룹: 고객구분 (CUST_TYPE)</h3>
                 <div class="grid-wrapper">
                     <table class="data-table">
                         <thead>
                             <tr>
+                                <th>코드그룹명</th>
                                 <th>코드값</th>
                                 <th>코드명</th>
                                 <th>정렬순서</th>
@@ -68,17 +91,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="code : ${codes}">
+                            <tr th:each="code : ${codes}" th:if="${codes != null}">
+                                <td th:text="${code.groupName != null ? code.groupName : '고객구분'}">고객구분</td>
                                 <td th:text="${code.codeValue}">RESIDENT</td>
                                 <td th:text="${code.codeName}">입주민</td>
                                 <td th:text="${code.sortOrder}">1</td>
                                 <td><span class="badge-success" th:text="${code.isActive ? 'Y' : 'N'}">Y</span></td>
                             </tr>
                             <tr th:if="${codes == null or codes.isEmpty()}">
-                                <td colspan="4" style="text-align: center;">등록된 코드가 없습니다.</td>
+                                <td colspan="5" style="text-align: center;">등록된 코드가 없습니다.</td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="pagination">
+                    <button class="btn-page btn-page-first" aria-label="첫 페이지"></button>
+                    <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
+                    <button class="btn-page active">1</button>
+                    <button class="btn-page">2</button>
+                    <button class="btn-page">3</button>
+                    <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+                    <button class="btn-page btn-page-last" aria-label="마지막 페이지"></button>
                 </div>
             </div>
 
@@ -86,6 +120,9 @@
             <div class="form-section">
                 <form class="code-form">
                     <div class="form-grid">
+                        <label class="form-field-label">코드그룹명</label>
+                        <input type="text" class="form-input" value="고객구분" readonly>
+
                         <label class="form-field-label">코드값</label>
                         <input type="text" class="form-input" value="RESIDENT">
 

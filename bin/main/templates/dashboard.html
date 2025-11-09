@@ -14,9 +14,6 @@
     <!-- Header -->
     <div th:replace="~{fragments/header :: header('대시보드(멀티스크린)')}"></div>
 
-    <!-- Breadcrumb -->
-    <div th:replace="~{fragments/breadcrumb :: breadcrumb('Main', '대시보드(멀티스크린)')}"></div>
-
     <main class="main-content">
         <!-- 차트 섹션 -->
         <section class="dashboard-charts">
@@ -238,6 +235,11 @@
             ...notify,
             sendDate: notify.sendDate ? new Date(notify.sendDate).toLocaleString('ko-KR') : '-'
         }));
+
+        // 페이지 로드 후 pagination 업데이트
+        if (typeof updatePagination === 'function') {
+            updatePagination();
+        }
         /*]]>*/
     </script>
 

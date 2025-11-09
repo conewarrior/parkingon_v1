@@ -13,103 +13,100 @@
     <!-- Header -->
     <div th:replace="~{fragments/header :: header('대시보드(근무자용)')}"></div>
 
+    <!-- 상단: 아파트 목록 -->
+    <aside class="apartment-monitoring-panel">
+        <div class="sidebar-search">
+            <h3 class="sidebar-title">아파트명</h3>
+            <div class="search-input-group">
+                <input type="text" class="form-input" placeholder="검색...">
+                <button class="btn-primary">조회</button>
+            </div>
+        </div>
+
+        <div class="item-table-wrapper">
+            <table class="item-table">
+                <thead>
+                    <!-- 첫 번째 헤더 행 (그룹 헤더) -->
+                    <tr>
+                        <th rowspan="2">아파트명</th>
+                        <th colspan="3" class="group-header">차단기</th>
+                        <th colspan="4" class="group-header">시스템</th>
+                        <th rowspan="2">마지막<br>출차시간</th>
+                        <th rowspan="2">기타 장비/비고</th>
+                    </tr>
+                    <!-- 두 번째 헤더 행 (서브 헤더) -->
+                    <tr>
+                        <th>명칭</th>
+                        <th>상태</th>
+                        <th>운영</th>
+                        <th>CPU</th>
+                        <th>메모리</th>
+                        <th>통신</th>
+                        <th>저장소</th>
+                    </tr>
+                </thead>
+                <tbody id="apartmentList">
+                    <tr class="item-table-row" th:each="apt, iterStat : ${apartments}"
+                        th:classappend="${iterStat.index == 0} ? 'selected' : ''">
+                        <td class="item-name" th:text="${apt.name}">삼성1단지</td>
+                        <!-- 차단기 -->
+                        <td class="status-text">입구#1</td>
+                        <td><span class="status-badge status-normal">정상</span></td>
+                        <td><span class="status-badge status-normal">운영중</span></td>
+                        <!-- 시스템 -->
+                        <td class="status-text">30%</td>
+                        <td class="status-text">40%</td>
+                        <td class="status-text">20M</td>
+                        <td class="status-text">50/100</td>
+                        <!-- 기타 -->
+                        <td class="status-text">10-20 14:30</td>
+                        <td class="status-text">-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            <button class="btn-page btn-page-first" aria-label="첫 페이지"></button>
+            <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
+            <button class="btn-page active">1</button>
+            <button class="btn-page">2</button>
+            <button class="btn-page">3</button>
+            <button class="btn-page">4</button>
+            <button class="btn-page">5</button>
+            <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+            <button class="btn-page btn-page-last" aria-label="마지막 페이지"></button>
+        </div>
+    </aside>
+
     <main class="dashboard-container">
-        <!-- 좌측: 아파트 목록 -->
-        <aside class="apartment-sidebar">
-            <div class="sidebar-header">
-                <h2 class="sidebar-title">아파트명</h2>
-                <button class="btn-search">조회</button>
+        <!-- 좌측: 미디어 패널 -->
+        <div class="left-panel">
+            <!-- 미디어 패널들 -->
+            <div class="media-panels">
+                <!-- CCTV 영역 -->
+                <section class="media-panel">
+                    <h3 class="media-title">CCTV</h3>
+                    <div class="media-viewer">
+                        <div class="media-placeholder">
+                            <p>CCTV 화면 영역</p>
+                            <p style="font-size: var(--text-xs);">320×180px</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 입차 이미지 영역 -->
+                <section class="media-panel">
+                    <h3 class="media-title">입차이미지</h3>
+                    <div class="media-viewer">
+                        <div class="media-placeholder">
+                            <p>입차 이미지 영역</p>
+                            <p style="font-size: var(--text-xs);">320×180px</p>
+                        </div>
+                    </div>
+                </section>
             </div>
-
-            <ul class="apartment-list" id="apartmentList">
-                <li class="apartment-item">
-                    <span class="status-indicator"></span>
-                    <div class="apt-info">
-                        <span class="apt-code">A1001234</span>
-                        <span class="apt-name">삼성1단지</span>
-                    </div>
-                </li>
-                <li class="apartment-item selected">
-                    <span class="status-indicator active"></span>
-                    <div class="apt-info">
-                        <span class="apt-code">A1001235</span>
-                        <span class="apt-name">삼성2단지</span>
-                    </div>
-                </li>
-                <li class="apartment-item">
-                    <span class="status-indicator"></span>
-                    <div class="apt-info">
-                        <span class="apt-code">A1001236</span>
-                        <span class="apt-name">정문인구 방문</span>
-                    </div>
-                </li>
-            </ul>
-
-            <!-- 페이지네이션 -->
-            <div class="pagination">
-                <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
-                <button class="btn-page active">1</button>
-                <button class="btn-page">2</button>
-                <button class="btn-page">3</button>
-                <button class="btn-page">4</button>
-                <button class="btn-page">5</button>
-                <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
-            </div>
-        </aside>
-
-        <!-- 중앙: 메인 패널 -->
-        <div class="main-panel">
-            <!-- 상단 상태 표시줄 -->
-            <section class="status-bar">
-                <div class="status-grid">
-                    <div class="status-item">
-                        <span class="status-label">차단기</span>
-                        <span class="status-value normal">정상</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">시스템</span>
-                        <span class="status-value warning">점검</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">CPU</span>
-                        <span class="status-value">30%</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">메모리</span>
-                        <span class="status-value">40%</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">통신</span>
-                        <span class="status-value">20M</span>
-                    </div>
-                    <div class="status-item">
-                        <span class="status-label">저장소</span>
-                        <span class="status-value">50/100</span>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CCTV 영역 -->
-            <section class="media-panel">
-                <h3 class="media-title">CCTV</h3>
-                <div class="media-viewer">
-                    <div class="media-placeholder">
-                        <p>CCTV 화면 영역</p>
-                        <p style="font-size: var(--text-xs);">320×180px</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 입차 이미지 영역 -->
-            <section class="media-panel">
-                <h3 class="media-title">입차이미지</h3>
-                <div class="media-viewer">
-                    <div class="media-placeholder">
-                        <p>입차 이미지 영역</p>
-                        <p style="font-size: var(--text-xs);">320×180px</p>
-                    </div>
-                </div>
-            </section>
         </div>
 
         <!-- 우측: 컨트롤 패널 -->
@@ -120,15 +117,25 @@
             <!-- 이전 상담내역 -->
             <div class="history-section">
                 <h4 class="history-title">이전 상담내역</h4>
-                <div class="history-list">
-                    <div class="history-item">
-                        <div class="history-time">10-14 21:20:21</div>
-                        <div class="history-content">102동 1004호...</div>
-                    </div>
-                    <div class="history-item">
-                        <div class="history-time">10-14 21:20:21</div>
-                        <div class="history-content">102동 1004호...</div>
-                    </div>
+                <div class="history-table-wrapper">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>일시</th>
+                                <th>상담내역</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10-14 21:20:21</td>
+                                <td>102동 1004호...</td>
+                            </tr>
+                            <tr>
+                                <td>10-14 21:20:21</td>
+                                <td>102동 1004호...</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -189,39 +196,65 @@
                 </div>
             </div>
 
+            <!-- 차단기 제어 상태 -->
+            <div class="gate-status-section">
+                <h4 class="gate-status-title">차단기 제어</h4>
+                <div class="gate-status">
+                    <div class="gate-option">
+                        <input type="radio" name="gateStatus" value="none" id="gateStatusNone" checked>
+                        <label for="gateStatusNone">제어없음</label>
+                    </div>
+                    <div class="gate-option">
+                        <input type="radio" name="gateStatus" value="open" id="gateStatusOpen">
+                        <label for="gateStatusOpen">열림</label>
+                    </div>
+                </div>
+            </div>
+
             <!-- 차단기 제어 -->
             <div class="gate-control">
                 <h4 class="gate-control-title">차단기 제어</h4>
-                <div class="gate-status">
-                    <div class="gate-option">
-                        <input type="radio" name="gate" value="open" id="gateOpen">
-                        <label for="gateOpen">열림</label>
-                    </div>
-                    <div class="gate-option">
-                        <input type="radio" name="gate" value="close" id="gateClose" checked>
-                        <label for="gateClose">닫힘</label>
+
+                <!-- 차단기 제어 버튼들 (라디오 버튼 스타일) -->
+                <div class="gate-control-buttons">
+                    <input type="radio" name="gateControl" value="open" id="gateControlOpen">
+                    <label for="gateControlOpen" class="btn-gate-control">열림</label>
+
+                    <input type="radio" name="gateControl" value="close" id="gateControlClose">
+                    <label for="gateControlClose" class="btn-gate-control">닫힘</label>
+
+                    <input type="radio" name="gateControl" value="lock" id="gateControlLock">
+                    <label for="gateControlLock" class="btn-gate-control">열림고정</label>
+
+                    <input type="radio" name="gateControl" value="unlock" id="gateControlUnlock">
+                    <label for="gateControlUnlock" class="btn-gate-control">고정해제</label>
+                </div>
+
+                <!-- 자동열림 설정 -->
+                <div class="auto-open-section">
+                    <h5 class="auto-open-title">검지시 자동열림</h5>
+                    <div class="auto-open-buttons">
+                        <input type="radio" name="autoOpen" value="on" id="autoOpenOn" checked>
+                        <label for="autoOpenOn" class="btn-auto-open">설정</label>
+
+                        <input type="radio" name="autoOpen" value="off" id="autoOpenOff">
+                        <label for="autoOpenOff" class="btn-auto-open">해제</label>
                     </div>
                 </div>
-                <button class="btn-gate-action">차단기 제어</button>
             </div>
         </aside>
     </main>
 
-    <!-- 하단 상태 바 -->
-    <div class="bottom-status-bar">
-        <span class="status-chip normal">방문차단이력: 정상</span>
-        <span class="status-chip normal">VOC이력: 정상</span>
-        <span class="status-chip normal">수동제어: 정상</span>
-        <span class="status-chip normal">검지차: 정상</span>
-    </div>
+    <!-- Footer with PBX Bar -->
+    <div class="footer-wrapper">
+        <!-- PBX 바 (비활성화 버튼) -->
+        <div class="pbx-bar">
+            <button class="btn-pbx" disabled>PBX콜: 동아아파트</button>
+        </div>
 
-    <!-- PBX 바 -->
-    <div class="pbx-bar">
-        PBX콜: 동아아파트
+        <!-- Footer -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
     </div>
-
-    <!-- Footer -->
-    <div th:replace="~{fragments/footer :: footer}"></div>
 
     <script th:src="@{/js/dashboard-worker.js}"></script>
 </body>
