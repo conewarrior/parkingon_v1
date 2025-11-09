@@ -486,12 +486,13 @@ body {
 .form-select,
 .form-textarea {
     width: 100%;
-    padding: var(--spacing-3) var(--spacing-4);
+    padding: var(--spacing-2) var(--spacing-3);
     border: 1px solid var(--border-default);
     border-radius: 6px;
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
     font-family: var(--font-primary);
     transition: border-color 0.3s;
+    height: 36px;
 }
 
 /* Form Select specific styling */
@@ -548,6 +549,7 @@ body {
 .form-textarea {
     min-height: 120px;
     resize: vertical;
+    height: auto;
 }
 
 /* ========================================

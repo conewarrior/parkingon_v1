@@ -16,9 +16,18 @@
     <!-- 상단: 아파트 목록 -->
     <aside class="apartment-monitoring-panel">
         <div class="sidebar-search">
-            <h3 class="sidebar-title">아파트명</h3>
-            <div class="search-input-group">
-                <input type="text" class="form-input" placeholder="검색...">
+            <div class="search-header">
+                <select class="form-select" style="width: 100px;">
+                    <option>전체</option>
+                    <option>수도권</option>
+                    <option>강원권</option>
+                </select>
+                <input type="text" class="form-input" placeholder="예)본문의 검색 대상어를 입력하세요." style="flex: 1;">
+                <select class="form-select" style="width: 80px;">
+                    <option>10건</option>
+                    <option>20건</option>
+                    <option>50건</option>
+                </select>
                 <button class="btn-primary">조회</button>
             </div>
         </div>
@@ -111,9 +120,6 @@
 
         <!-- 우측: 컨트롤 패널 -->
         <aside class="control-panel">
-            <!-- 차량번호 표시 -->
-            <div class="car-number-display">12가1234</div>
-
             <!-- 이전 상담내역 -->
             <div class="history-section">
                 <h4 class="history-title">이전 상담내역</h4>
@@ -195,55 +201,36 @@
                     <textarea class="form-textarea" rows="3"></textarea>
                 </div>
             </div>
+        </aside>
+    </main>
 
-            <!-- 차단기 제어 상태 -->
-            <div class="gate-status-section">
-                <h4 class="gate-status-title">차단기 제어</h4>
-                <div class="gate-status">
-                    <div class="gate-option">
-                        <input type="radio" name="gateStatus" value="none" id="gateStatusNone" checked>
-                        <label for="gateStatusNone">제어없음</label>
-                    </div>
-                    <div class="gate-option">
-                        <input type="radio" name="gateStatus" value="open" id="gateStatusOpen">
-                        <label for="gateStatusOpen">열림</label>
-                    </div>
+    <!-- 즐겨찾기 & 차단기 제어 영역 (한 줄로) -->
+    <section class="bottom-controls-section">
+        <div class="bottom-controls-wrapper">
+            <!-- 즐겨찾기 -->
+            <div class="favorites-area">
+                <h4 class="section-title">즐겨찾기</h4>
+                <div class="favorites-buttons">
+                    <button class="btn-favorite" onclick="location.href='/voc/inout-car'">입출차<br>이력</button>
+                    <button class="btn-favorite" onclick="location.href='/voc/voc-list'">VOC<br>이력</button>
+                    <button class="btn-favorite" onclick="location.href='/voc/control-history'">수동제어<br>이력</button>
                 </div>
             </div>
 
             <!-- 차단기 제어 -->
-            <div class="gate-control">
-                <h4 class="gate-control-title">차단기 제어</h4>
-
-                <!-- 차단기 제어 버튼들 (라디오 버튼 스타일) -->
-                <div class="gate-control-buttons">
-                    <input type="radio" name="gateControl" value="open" id="gateControlOpen">
-                    <label for="gateControlOpen" class="btn-gate-control">열림</label>
-
-                    <input type="radio" name="gateControl" value="close" id="gateControlClose">
-                    <label for="gateControlClose" class="btn-gate-control">닫힘</label>
-
-                    <input type="radio" name="gateControl" value="lock" id="gateControlLock">
-                    <label for="gateControlLock" class="btn-gate-control">열림고정</label>
-
-                    <input type="radio" name="gateControl" value="unlock" id="gateControlUnlock">
-                    <label for="gateControlUnlock" class="btn-gate-control">고정해제</label>
-                </div>
-
-                <!-- 자동열림 설정 -->
-                <div class="auto-open-section">
-                    <h5 class="auto-open-title">검지시 자동열림</h5>
-                    <div class="auto-open-buttons">
-                        <input type="radio" name="autoOpen" value="on" id="autoOpenOn" checked>
-                        <label for="autoOpenOn" class="btn-auto-open">설정</label>
-
-                        <input type="radio" name="autoOpen" value="off" id="autoOpenOff">
-                        <label for="autoOpenOff" class="btn-auto-open">해제</label>
-                    </div>
+            <div class="gate-control-area">
+                <h4 class="section-title">차단기 제어</h4>
+                <div class="bottom-gate-buttons">
+                    <button class="btn-bottom-gate btn-open">열림</button>
+                    <button class="btn-bottom-gate btn-close">닫힘</button>
+                    <button class="btn-bottom-gate btn-lock">열림고정</button>
+                    <button class="btn-bottom-gate btn-unlock">열림고정<br>해제</button>
+                    <button class="btn-bottom-gate btn-auto-on">검지<br>자동열림</button>
+                    <button class="btn-bottom-gate btn-auto-off">검지<br>자동해제</button>
                 </div>
             </div>
-        </aside>
-    </main>
+        </div>
+    </section>
 
     <!-- Footer with PBX Bar -->
     <div class="footer-wrapper">
