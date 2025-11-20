@@ -20,7 +20,13 @@
                 <h3 class="sidebar-title">아파트명</h3>
                 <div class="search-input-group">
                     <input type="text" class="form-input" placeholder="검색...">
-                    <button class="btn-primary">조회</button>
+                    <button class="btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        조회
+                    </button>
                 </div>
             </div>
 
@@ -36,14 +42,19 @@
                         </tr>
                     </thead>
                     <tbody id="apartmentList">
-                        <tr class="item-table-row" th:each="apt, iterStat : ${apartments}"
-                            th:classappend="${iterStat.index == 0} ? 'selected' : ''">
+                        <tr class="item-table-row selected">
                             <td>
-                                <input type="checkbox" th:id="'apt' + ${apt.id}"
-                                       th:checked="${iterStat.index == 0}">
+                                <input type="checkbox" id="apt-all-0" checked>
+                            </td>
+                            <td class="item-code">A000000</td>
+                            <td class="item-name">전체</td>
+                        </tr>
+                        <tr class="item-table-row" th:each="apt, iterStat : ${apartments}">
+                            <td>
+                                <input type="checkbox" th:id="'apt' + ${apt.id}">
                             </td>
                             <td class="item-code" th:text="${apt.code}">A1001234</td>
-                            <td class="item-name" th:text="${apt.name}">삼성1단지</td>
+                            <td class="item-name" th:text="${apt.name}" th:attr="data-full-text=${apt.name}">삼성1단지</td>
                         </tr>
                     </tbody>
                 </table>
@@ -68,11 +79,25 @@
             <!-- 검색 바 -->
             <div class="search-bar">
                 <input type="text" class="form-input" placeholder="검색어 입력" style="max-width: 300px;">
-                <button class="btn-primary">조회</button>
+                <button class="btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    조회
+                </button>
             </div>
 
             <!-- 공지사항 목록 -->
             <div class="data-grid">
+                <div class="table-controls">
+                    <select class="form-select" style="width: 100px;">
+                        <option value="10">10건</option>
+                        <option value="20">20건</option>
+                        <option value="50">50건</option>
+                        <option value="100">100건</option>
+                    </select>
+                </div>
                 <div class="grid-wrapper">
                     <table class="data-table">
                         <thead>
@@ -81,8 +106,8 @@
                                 <th>발송시간</th>
                                 <th>수신자</th>
                                 <th>발송</th>
-                                <th>수신인</th>
-                                <th>공지입</th>
+                                <th>수신완료</th>
+                                <th>공지팝업</th>
                                 <th>제목</th>
                             </tr>
                         </thead>
@@ -118,7 +143,7 @@
                 <form class="notify-form">
                     <div class="form-grid">
                         <label class="form-field-label">일련번호</label>
-                        <input type="text" class="form-input" value="3" readonly>
+                        <div style="font-size: var(--text-sm); color: var(--text-primary);">3</div>
 
                         <label class="form-field-label">아파트</label>
                         <select class="form-select">
@@ -144,7 +169,7 @@
                         <div class="radio-group">
                             <div class="radio-option">
                                 <input type="radio" name="notifyType" value="POPUP" id="typePopup" checked>
-                                <label for="typePopup">팝업공지</label>
+                                <label for="typePopup">팝업창표시</label>
                             </div>
                             <div class="radio-option">
                                 <input type="radio" name="notifyType" value="ALERT" id="typeAlert">
@@ -161,8 +186,21 @@
                     </div>
 
                     <div class="form-actions">
-                        <button type="button" class="btn-secondary">초기화</button>
-                        <button type="submit" class="btn-primary">저장(팝업)</button>
+                        <button type="button" class="btn-secondary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                                <path d="M3 3v5h5"></path>
+                            </svg>
+                            초기화
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                <polyline points="7 3 7 8 15 8"></polyline>
+                            </svg>
+                            저장(발송)
+                        </button>
                     </div>
                 </form>
             </div>

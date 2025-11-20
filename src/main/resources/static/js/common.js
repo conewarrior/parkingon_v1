@@ -19,6 +19,31 @@ function searchAddress() {
 
 // closePopup, showPrevNotify, showNextNotify는 notify-popup.js에 정의되어 있음
 
+// Update data table rows based on selected count
+function updateDataTableRows(selectElement) {
+    const rowCount = parseInt(selectElement.value);
+    const dataGrid = selectElement.closest('.data-grid');
+    if (!dataGrid) {
+        console.error('data-grid not found');
+        return;
+    }
+
+    const tbody = dataGrid.querySelector('.data-table tbody');
+    if (!tbody) {
+        console.error('tbody not found');
+        return;
+    }
+
+    const allRows = tbody.querySelectorAll('tr');
+    allRows.forEach((row, index) => {
+        if (index < rowCount) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
 // 현재 페이지에 맞는 네비게이션 메뉴 활성화
 document.addEventListener('DOMContentLoaded', function() {
     const currentPath = window.location.pathname;

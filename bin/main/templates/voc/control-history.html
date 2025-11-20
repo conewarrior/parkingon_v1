@@ -20,7 +20,13 @@
                 <h3 class="sidebar-title">아파트명</h3>
                 <div class="search-input-group">
                     <input type="text" class="form-input" placeholder="검색...">
-                    <button class="btn-primary">조회</button>
+                    <button class="btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        조회
+                    </button>
                 </div>
             </div>
 
@@ -36,14 +42,19 @@
                         </tr>
                     </thead>
                     <tbody id="apartmentList">
-                        <tr class="item-table-row" th:each="apt, iterStat : ${apartments}"
-                            th:classappend="${iterStat.index == 0} ? 'selected' : ''">
+                        <tr class="item-table-row selected">
                             <td>
-                                <input type="checkbox" th:id="'apt' + ${apt.id}"
-                                       th:checked="${iterStat.index == 0}">
+                                <input type="checkbox" id="apt-all-0" checked>
+                            </td>
+                            <td class="item-code">A000000</td>
+                            <td class="item-name">전체</td>
+                        </tr>
+                        <tr class="item-table-row" th:each="apt, iterStat : ${apartments}">
+                            <td>
+                                <input type="checkbox" th:id="'apt' + ${apt.id}">
                             </td>
                             <td class="item-code" th:text="${apt.code}">A1001234</td>
-                            <td class="item-name" th:text="${apt.name}">삼성1단지</td>
+                            <td class="item-name" th:text="${apt.name}" th:attr="data-full-text=${apt.name}">삼성1단지</td>
                         </tr>
                     </tbody>
                 </table>
@@ -75,11 +86,11 @@
                 </div>
 
                 <div class="input-group">
-                    <label>제어 구분</label>
+                    <label>상태</label>
                     <select class="form-select">
                         <option>전체</option>
-                        <option>입차 허용</option>
-                        <option>입차 거부</option>
+                        <option>열림</option>
+                        <option>닫힘</option>
                     </select>
                 </div>
 
@@ -88,29 +99,37 @@
 
             <!-- 수동제어 이력 테이블 -->
             <div class="data-grid">
+                <div class="table-controls">
+                    <select class="form-select" style="width: 100px;">
+                        <option value="10">10건</option>
+                        <option value="20">20건</option>
+                        <option value="50">50건</option>
+                        <option value="100">100건</option>
+                    </select>
+                </div>
                 <div class="grid-wrapper">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>일시</th>
-                                <th>차량번호</th>
-                                <th>제어 구분</th>
-                                <th>게이트</th>
-                                <th>제어자</th>
+                                <th>처리일시</th>
                                 <th>사유</th>
+                                <th>차량번호</th>
+                                <th>상태</th>
+                                <th>장비명</th>
+                                <th>처리자</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="control : ${controls}" th:if="${controls != null}">
                                 <td th:text="${#temporals.format(control.controlTime, 'yyyy-MM-dd HH:mm:ss')}">2025-10-21 10:30:25</td>
+                                <td th:text="${control.reason}">사전 승인된 방문차량</td>
                                 <td th:text="${control.carNumber}">12가1111</td>
                                 <td>
-                                    <span th:classappend="${control.controlType == '입차 허용'} ? 'badge-success' : 'badge-error'"
-                                          th:text="${control.controlType}">입차 허용</span>
+                                    <span class="badge" th:classappend="${control.controlType == 'ALLOW' or control.controlType == '열림'} ? 'badge-success' : 'badge-error'"
+                                          th:text="${control.controlType == 'ALLOW' ? '열림' : (control.controlType == 'DENY' ? '닫힘' : control.controlType)}">열림</span>
                                 </td>
                                 <td th:text="${control.gateName}">정문</td>
                                 <td th:text="${control.controller}">관리자</td>
-                                <td th:text="${control.reason}">사전 승인된 방문차량</td>
                             </tr>
                             <tr th:if="${controls == null or controls.isEmpty()}">
                                 <td colspan="6" style="text-align: center;">제어 이력이 없습니다.</td>

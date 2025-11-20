@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대시보드(근무자용) - 파킹온</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard-worker.css}">
+    <script th:src="@{/js/common.js}"></script>
+</head>
+<body class="dashboard-page">
+    <!-- Header -->
+    <div th:replace="~{fragments/header :: header('대시보드(근무자용)')}"></div>
+
+    <main class="dashboard-container">
+        <!-- 좌측: 미디어 패널 -->
+        <div class="left-panel">
+            <!-- 미디어 패널들 -->
+            <div class="media-panels">
+                <!-- CCTV 영역 -->
+                <section class="media-panel">
+                    <h3 class="media-title">CCTV</h3>
+                    <div class="media-viewer">
+                        <div class="media-placeholder">
+                            <p>CCTV 화면 영역</p>
+                            <p style="font-size: var(--text-xs);">320×180px</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 입차 이미지 영역 -->
+                <section class="media-panel">
+                    <h3 class="media-title">입차이미지</h3>
+                    <div class="media-viewer">
+                        <div class="media-placeholder">
+                            <p>입차 이미지 영역</p>
+                            <p style="font-size: var(--text-xs);">320×180px</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- 우측: 컨트롤 패널 -->
+        <aside class="control-panel">
+            <!-- 이전 상담내역 -->
+            <div class="history-section">
+                <h4 class="history-title">이전 상담내역</h4>
+                <div class="history-table-wrapper">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>일시</th>
+                                <th>상담내역</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10-14 21:20:21</td>
+                                <td>102동 1004호...</td>
+                            </tr>
+                            <tr>
+                                <td>10-14 21:20:21</td>
+                                <td>102동 1004호...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 상담 정보 입력 -->
+            <div class="consultation-form">
+                <div class="form-row">
+                    <label>단지명</label>
+                    <input type="text" class="form-input" value="아파트1 단지A" readonly>
+                </div>
+
+                <div class="form-row">
+                    <label>일시</label>
+                    <input type="datetime-local" class="form-input" value="2025-10-20T20:30:50" readonly>
+                </div>
+
+                <div class="form-row">
+                    <label>차량번호</label>
+                    <input type="text" class="form-input" value="12가1234">
+                </div>
+
+                <div class="form-row">
+                    <label>고객유형</label>
+                    <select class="form-select">
+                        <option>방문고객</option>
+                        <option>입주민</option>
+                        <option>출역</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label>방문목적</label>
+                    <select class="form-select">
+                        <option>방문</option>
+                        <option>배달</option>
+                        <option>택배</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label>동/호</label>
+                    <div class="dong-ho-group">
+                        <select class="form-select">
+                            <option>101</option>
+                            <option>102</option>
+                            <option>103</option>
+                        </select>
+                        <select class="form-select">
+                            <option>1002</option>
+                            <option>1003</option>
+                            <option>1004</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label>상담내역</label>
+                    <textarea class="form-textarea" rows="3"></textarea>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- 상단: 아파트 목록 -->
+    <aside class="apartment-monitoring-panel">
+        <div class="sidebar-search">
+            <div class="search-header">
+                <select class="form-select" style="width: 100px;">
+                    <option>전체</option>
+                    <option>수도권</option>
+                    <option>강원권</option>
+                </select>
+                <input type="text" class="form-input" placeholder="예)본문의 검색 대상어를 입력하세요." style="flex: 1;">
+                <select class="form-select" style="width: 80px;">
+                    <option>10건</option>
+                    <option>20건</option>
+                    <option>50건</option>
+                </select>
+                <button class="btn-primary">조회</button>
+            </div>
+        </div>
+
+        <div class="item-table-wrapper">
+            <table class="item-table">
+                <thead>
+                    <!-- 첫 번째 헤더 행 (그룹 헤더) -->
+                    <tr>
+                        <th rowspan="2">아파트명</th>
+                        <th colspan="3" class="group-header">차단기</th>
+                        <th colspan="4" class="group-header">시스템</th>
+                        <th rowspan="2">마지막<br>출차시간</th>
+                        <th rowspan="2">기타 장비/비고</th>
+                    </tr>
+                    <!-- 두 번째 헤더 행 (서브 헤더) -->
+                    <tr>
+                        <th>명칭</th>
+                        <th>상태</th>
+                        <th>운영</th>
+                        <th>CPU</th>
+                        <th>메모리</th>
+                        <th>통신</th>
+                        <th>저장소</th>
+                    </tr>
+                </thead>
+                <tbody id="apartmentList">
+                    <tr class="item-table-row" th:each="apt, iterStat : ${apartments}"
+                        th:classappend="${iterStat.index == 0} ? 'selected' : ''">
+                        <td class="item-name" th:text="${apt.name}">삼성1단지</td>
+                        <!-- 차단기 -->
+                        <td class="status-text">입구#1</td>
+                        <td><span class="status-badge status-normal">정상</span></td>
+                        <td><span class="status-badge status-normal">운영중</span></td>
+                        <!-- 시스템 -->
+                        <td class="status-text">30%</td>
+                        <td class="status-text">40%</td>
+                        <td class="status-text">20M</td>
+                        <td class="status-text">50/100</td>
+                        <!-- 기타 -->
+                        <td class="status-text">10-20 14:30</td>
+                        <td class="status-text">-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            <button class="btn-page btn-page-first" aria-label="첫 페이지"></button>
+            <button class="btn-page btn-page-prev" aria-label="이전 페이지"></button>
+            <button class="btn-page active">1</button>
+            <button class="btn-page">2</button>
+            <button class="btn-page">3</button>
+            <button class="btn-page">4</button>
+            <button class="btn-page">5</button>
+            <button class="btn-page btn-page-next" aria-label="다음 페이지"></button>
+            <button class="btn-page btn-page-last" aria-label="마지막 페이지"></button>
+        </div>
+    </aside>
+
+    <!-- 즐겨찾기 & 차단기 제어 영역 (한 줄로) -->
+    <section class="bottom-controls-section">
+        <div class="bottom-controls-wrapper">
+            <!-- 즐겨찾기 -->
+            <div class="favorites-area">
+                <h4 class="section-title">즐겨찾기</h4>
+                <div class="favorites-buttons">
+                    <button class="btn-favorite" onclick="location.href='/voc/inout-car'">입출차<br>이력</button>
+                    <button class="btn-favorite" onclick="location.href='/voc/voc-list'">VOC<br>이력</button>
+                    <button class="btn-favorite" onclick="location.href='/voc/control-history'">수동제어<br>이력</button>
+                </div>
+            </div>
+
+            <!-- 차단기 제어 -->
+            <div class="gate-control-area">
+                <h4 class="section-title">차단기 제어</h4>
+                <div class="bottom-gate-buttons">
+                    <button class="btn-bottom-gate btn-open">열림</button>
+                    <button class="btn-bottom-gate btn-close">닫힘</button>
+                    <button class="btn-bottom-gate btn-lock">열림고정</button>
+                    <button class="btn-bottom-gate btn-unlock">열림고정<br>해제</button>
+                    <button class="btn-bottom-gate btn-auto-on">검지<br>자동열림</button>
+                    <button class="btn-bottom-gate btn-auto-off">검지<br>자동해제</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer with PBX Bar -->
+    <div class="footer-wrapper">
+        <!-- PBX 바 (비활성화 버튼) -->
+        <div class="pbx-bar">
+            <button class="btn-pbx" disabled>PBX콜: 동아아파트</button>
+        </div>
+
+        <!-- Footer -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+
+    <script th:src="@{/js/dashboard-worker.js}"></script>
+</body>
+</html>

@@ -184,18 +184,21 @@ public class DataInitializer implements CommandLineRunner {
 
         List<Notify> notifies = new ArrayList<>();
 
-        notifies.add(Notify.builder()
+        Notify notify1 = Notify.builder()
             .title("콜센터 운영지침 변경")
             .content("콜센터 운영지침 변경 10월 17일부로 변경됨을 알립니다.<br>" +
                 "콜센터의 업무는 입주민 및 방문차량의 원활한 입출차를 지원하는 것입니다.<br>" +
                 "업무 시간은 평일 오전 9시부터 오후 6시까지입니다.<br>" +
                 "차량 입차 처리에 대하여는 블랙리스트를 우선 확인하여 주시기 바랍니다.")
             .sender("콜센터 관리자")
-            .sendDate(LocalDateTime.now().minusDays(3))
+            .sendDate(LocalDateTime.now().minusHours(1))
             .notifyType("POPUP")
             .targetType("ALL")
+            .imageUrl("/images/the-walters-art-museum-VKagibOTZRY-unsplash.jpg")
             .isActive(true)
-            .build());
+            .build();
+        System.out.println("DEBUG: Notify1 imageUrl before save: " + notify1.getImageUrl());
+        notifies.add(notify1);
 
         notifies.add(Notify.builder()
             .title("시스템 정기 점검 안내")
@@ -220,8 +223,12 @@ public class DataInitializer implements CommandLineRunner {
             .isActive(true)
             .build());
 
-        notifyRepository.saveAll(notifies);
-        log.info("Created {} notifications", notifies.size());
+        List<Notify> savedNotifies = notifyRepository.saveAll(notifies);
+        log.info("Created {} notifications", savedNotifies.size());
+        if (!savedNotifies.isEmpty()) {
+            Notify saved = savedNotifies.get(0);
+            System.out.println("DEBUG: First saved notify imageUrl: " + saved.getImageUrl());
+        }
     }
 
     private void initCars(List<Apartment> apartments) {

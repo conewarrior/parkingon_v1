@@ -30,20 +30,8 @@ function updateNotifyContent(notify) {
     const popup = document.querySelector('.popup-container');
     if (!popup || !notify) return;
 
-    // 일련번호
-    popup.querySelector('.popup-number span').textContent = notify.id;
-
-    // 발신자
-    popup.querySelectorAll('.info-value')[0].textContent = notify.sender || '-';
-
-    // 발송일시
-    popup.querySelectorAll('.info-value')[1].textContent = notify.sendDate || '-';
-
     // 제목
     popup.querySelector('.popup-title').textContent = notify.title || '공지사항';
-
-    // 내용
-    popup.querySelector('.content-text').innerHTML = notify.content || '내용 없음';
 
     // 이미지
     const imageDiv = popup.querySelector('.content-image');
@@ -58,6 +46,21 @@ function updateNotifyContent(notify) {
         } else {
             imageDiv.style.display = 'none';
         }
+    }
+
+    // 발신자
+    popup.querySelectorAll('.info-value')[0].textContent = notify.sender || '-';
+
+    // 발송일시
+    popup.querySelectorAll('.info-value')[1].textContent = notify.sendDate || '-';
+
+    // 내용
+    popup.querySelector('.content-text').innerHTML = notify.content || '내용 없음';
+
+    // 일련번호
+    const serialNum = popup.querySelector('.popup-serial-num span');
+    if (serialNum) {
+        serialNum.textContent = notify.id;
     }
 
     // Pagination 업데이트

@@ -26,14 +26,28 @@
     margin-bottom: var(--spacing-4);
 }
 
+.sidebar-title {
+    margin-bottom: var(--spacing-3);
+}
+
 .search-input-group {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: var(--spacing-2);
 }
 
 .search-input-group input {
     width: 100%;
+}
+
+.search-input-group .btn-primary {
+    height: 40px;
+    min-height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
 }
 
 /* Item Table */
@@ -93,6 +107,28 @@
     font-size: var(--text-sm);
     font-weight: 500;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    position: relative;
+    cursor: pointer;
+}
+
+.item-name:hover::after {
+    content: attr(data-full-text);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: var(--text-primary);
+    color: var(--bg-white);
+    padding: 8px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+    z-index: 1000;
+    font-size: var(--text-sm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-top: 4px;
+    pointer-events: none;
 }
 
 /* Main Content (Right) */
@@ -106,15 +142,59 @@
 /* Search Bar */
 .search-bar {
     display: flex;
-    gap: var(--spacing-3);
+    gap: var(--spacing-2);
     margin-bottom: var(--spacing-4);
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
+}
+
+.search-bar .input-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.search-bar .input-group label {
+    font-size: 13px;
+    white-space: nowrap;
+    min-width: fit-content;
+}
+
+.search-bar .form-input,
+.search-bar .form-select {
+    font-size: 13px;
+    padding: 6px 10px;
+    min-width: 100px;
+    max-width: 140px;
+}
+
+.search-bar .btn-primary {
+    font-size: 13px;
+    padding: 6px 16px;
+    white-space: nowrap;
 }
 
 /* Data Grid */
 .data-grid {
     margin-bottom: var(--spacing-5);
+}
+
+.data-grid-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-3);
+    gap: var(--spacing-3);
+    flex-wrap: wrap;
+}
+
+.data-grid-header .search-bar {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+.data-grid-header .table-controls {
+    margin-bottom: 0;
 }
 
 .grid-wrapper {
@@ -136,10 +216,10 @@
 
 .form-grid {
     display: grid;
-    grid-template-columns: 150px 1fr;
+    grid-template-columns: 140px 1fr;
     gap: var(--spacing-4);
     row-gap: var(--spacing-4);
-    align-items: start;
+    align-items: center;
 }
 
 .form-field {
@@ -152,6 +232,8 @@
     font-weight: 600;
     font-size: var(--text-sm);
     white-space: nowrap;
+    text-align: right;
+    max-width: 140px;
 }
 
 .form-field-input {
@@ -263,6 +345,61 @@
 .policy-control span {
     white-space: nowrap;
     font-size: var(--text-sm);
+}
+
+/* Form Fixed Value (Header Style) */
+.form-field-fixed {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: var(--spacing-4);
+}
+
+.form-field-fixed .form-field-label {
+    background: #00B0FF;
+    color: white;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 0;
+}
+
+.form-field-fixed .form-field-label::before {
+    content: '📍';
+    font-size: 16px;
+}
+
+.form-field-fixed .form-fixed-value {
+    background: #f0f9ff;
+    padding: 10px 16px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+/* Table Controls */
+.table-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--spacing-3);
+}
+
+.rows-per-page-select {
+    padding: 6px 32px 6px 12px;
+    border: 1px solid var(--border-default);
+    border-radius: 4px;
+    font-size: var(--text-sm);
+    background: var(--bg-white);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%23475569' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
 }
 
 /* Mobile Responsive - Updated */

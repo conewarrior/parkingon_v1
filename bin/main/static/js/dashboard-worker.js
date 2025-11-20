@@ -1,6 +1,51 @@
 // Dashboard Worker JavaScript
 
+// Update table rows based on selected value
+function updateTableRows() {
+    const select = document.getElementById('rowsPerPage');
+    if (!select) {
+        console.error('rowsPerPage select not found');
+        return;
+    }
+
+    const rowCount = parseInt(select.value);
+    console.log('Selected row count:', rowCount);
+
+    const tbody = document.querySelector('.apartment-table tbody');
+    if (!tbody) {
+        console.error('tbody not found');
+        return;
+    }
+
+    const allRows = tbody.querySelectorAll('tr');
+    console.log('Total rows:', allRows.length);
+
+    allRows.forEach((row, index) => {
+        if (index < rowCount) {
+            row.style.display = 'table-row';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    console.log('Table rows updated');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize table rows on page load
+    updateTableRows();
+
+    // 차단기 제어 버튼 선택 이벤트
+    const gateButtons = document.querySelectorAll('.btn-gate');
+    gateButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 모든 버튼에서 selected 클래스 제거
+            gateButtons.forEach(btn => btn.classList.remove('selected'));
+            // 클릭된 버튼에 selected 클래스 추가
+            this.classList.add('selected');
+        });
+    });
+
     // 아파트 목록 클릭 이벤트
     const apartmentItems = document.querySelectorAll('.apartment-item');
     apartmentItems.forEach(item => {
@@ -15,21 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('선택된 아파트:', aptCode);
         });
     });
-
-    // 차단기 제어 버튼
-    const gateControlBtn = document.querySelector('.btn-gate-action');
-    if (gateControlBtn) {
-        gateControlBtn.addEventListener('click', function() {
-            const selectedGate = document.querySelector('input[name="gate"]:checked');
-            if (selectedGate) {
-                const action = selectedGate.value === 'open' ? '열기' : '닫기';
-                if (confirm(`차단기를 ${action}하시겠습니까?`)) {
-                    console.log('차단기 제어:', action);
-                    // TODO: AJAX로 차단기 제어 요청
-                }
-            }
-        });
-    }
 
     // 조회 버튼
     const searchBtn = document.querySelector('.btn-search');

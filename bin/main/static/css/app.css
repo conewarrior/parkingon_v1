@@ -6,47 +6,47 @@
    CSS Variables (Design System)
    ======================================== */
 :root {
-  /* Primary Colors - ParkingOn Brand */
+  /* Primary Colors - ParkingOn Brand (New Purple/Indigo Theme) */
   --primary-cyan: #00B0FF;
-  --primary-cyan-dark: #0099E6;
-  --primary-cyan-light: #0088CC;
-  --primary-cyan-bg: #E0F7FF;
-  --primary-cyan-lighter: #F0FBFF;
+  --primary-cyan-dark: #0091EA;
+  --primary-cyan-light: #40C4FF;
+  --primary-cyan-bg: #B3E5FC;
+  --primary-cyan-lighter: #E1F5FE;
 
   /* Legacy support (deprecated, use primary-cyan instead) */
   --primary-blue: #00B0FF;
-  --primary-red: #e63946;
+  --primary-red: #DC2626;
   --primary-black: #1a1a1a;
 
   /* Background Colors */
   --bg-white: #FFFFFF;
-  --bg-gray-50: #F9FAFB;
-  --bg-gray-100: #F3F4F6;
-  --bg-gray-light: #f5f7fa;
-  --bg-gray: #e5e7eb;
-  --bg-dark: #2d3748;
-  --header-dark: #2C3E50;
-  --sidebar-bg: #F5F7FA;
+  --bg-gray-50: #F8FAFC;
+  --bg-gray-100: #F1F5F9;
+  --bg-gray-light: #F1F5F9;
+  --bg-gray: #E2E8F0;
+  --bg-dark: #1E293B;
+  --header-dark: #1E293B;
+  --sidebar-bg: #F8FAFC;
   --content-bg: #FFFFFF;
 
   /* Text Colors */
-  --text-primary: #1F2937;
-  --text-secondary: #6B7280;
-  --text-tertiary: #9CA3AF;
-  --text-disabled: #D1D5DB;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-tertiary: #94A3B8;
+  --text-disabled: #CBD5E1;
   --text-white: #FFFFFF;
 
   /* Status Colors */
-  --status-success: #10B981;
-  --status-warning: #F59E0B;
-  --status-error: #EF4444;
-  --status-info: #3B82F6;
+  --status-success: #059669;
+  --status-warning: #D97706;
+  --status-error: #DC2626;
+  --status-info: #2563EB;
 
-  /* Border Colors */
-  --border-light: #F3F4F6;
-  --border-default: #E5E7EB;
-  --border-strong: #D1D5DB;
-  --border-dark: #9CA3AF;
+  /* Border Colors (Stronger borders) */
+  --border-light: #E2E8F0;
+  --border-default: #CBD5E1;
+  --border-strong: #94A3B8;
+  --border-dark: #64748B;
   --border-focus: #00B0FF;
 
   /* Font Family */
@@ -86,6 +86,8 @@
 
 html {
     font-size: 16px;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -93,6 +95,9 @@ body {
     color: var(--text-primary);
     background: var(--bg-gray-light);
     line-height: 1.5;
+    width: 100%;
+    overflow-x: hidden;
+    min-width: 320px;
 }
 
 /* ========================================
@@ -107,6 +112,8 @@ body {
     border-bottom: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     height: 60px;
+    width: 100%;
+    position: relative;
 }
 
 .header-left {
@@ -138,6 +145,14 @@ body {
     font-size: var(--text-lg);
     font-weight: 600;
     color: var(--text-white);
+}
+
+.mobile-menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
 }
 
 .header-nav {
@@ -325,12 +340,16 @@ body {
     color: #FFFFFF;
     border: none;
     border-radius: 6px;
-    padding: 10px 24px;
+    padding: 8px 24px;
     font-size: 14px;
     font-weight: 600;
-    min-height: 40px;
+    height: 36px;
+    min-height: 36px;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-primary:hover {
@@ -408,6 +427,13 @@ body {
     border-color: #D1D5DB;
     color: #D1D5DB;
     cursor: not-allowed;
+}
+
+/* Button SVG Icon Alignment */
+.btn-primary svg,
+.btn-secondary svg {
+    display: inline-block;
+    vertical-align: middle;
 }
 
 /* Danger Button - 삭제, 위험한 액션 */
@@ -580,15 +606,18 @@ body {
 }
 
 /* ========================================
-   Common Badge Styles
+   Common Badge/Chip Styles
    ======================================== */
 .badge {
-    display: inline-block;
-    padding: var(--spacing-1) var(--spacing-2);
-    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 12px;
+    border-radius: 16px;
     font-size: var(--text-xs);
-    font-weight: 600;
+    font-weight: 500;
     white-space: nowrap;
+    min-height: 24px;
 }
 
 .badge-success {
@@ -660,37 +689,30 @@ body {
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    background: var(--bg-white);
-    border-radius: 8px;
-    overflow: hidden;
+    font-size: var(--text-sm);
 }
 
 .data-table thead {
-    background: var(--bg-gray-light);
+    background: var(--bg-gray-50);
 }
 
 .data-table th {
-    padding: var(--spacing-3) var(--spacing-4);
-    text-align: left;
+    padding: 8px;
+    text-align: center;
     font-weight: 600;
-    font-size: var(--text-sm);
+    border: 1px solid var(--border-light);
     color: var(--text-primary);
-    border-bottom: 2px solid var(--border-default);
 }
 
 .data-table td {
-    padding: var(--spacing-3) var(--spacing-4);
-    font-size: var(--text-sm);
-    border-bottom: 1px solid var(--border-light);
-    white-space: nowrap;
+    padding: 10px 8px;
+    text-align: center;
+    border: 1px solid var(--border-light);
+    color: var(--text-primary);
 }
 
 .data-table tbody tr:hover {
-    background: #E0F7FF;
-}
-
-.data-table tbody tr:last-child td {
-    border-bottom: none;
+    background: var(--bg-gray-50);
 }
 
 /* ========================================
@@ -747,43 +769,31 @@ body {
 }
 
 .btn-page-prev::before {
-    content: '‹';
-    font-size: 18px;
-    font-weight: 500;
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M10 12L6 8L10 4' stroke='%23374151' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    display: inline-block;
+    vertical-align: middle;
     line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btn-page-next::before {
-    content: '›';
-    font-size: 18px;
-    font-weight: 500;
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M6 12L10 8L6 4' stroke='%23374151' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    display: inline-block;
+    vertical-align: middle;
     line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btn-page-first::before {
-    content: '«';
-    font-size: 18px;
-    font-weight: 500;
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M10 12L6 8L10 4M14 12L10 8L14 4' stroke='%23374151' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    display: inline-block;
+    vertical-align: middle;
     line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btn-page-last::before {
-    content: '»';
-    font-size: 18px;
-    font-weight: 500;
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M6 12L10 8L6 4M2 12L6 8L2 4' stroke='%23374151' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    display: inline-block;
+    vertical-align: middle;
     line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 /* ========================================
@@ -812,15 +822,54 @@ body {
 /* ========================================
    Responsive Utilities
    ======================================== */
-@media (max-width: 768px) {
-    .app-header {
-        flex-direction: column;
-        gap: var(--spacing-3);
+@media (max-width: 968px) {
+    .mobile-menu-toggle {
+        display: block;
     }
 
     .header-nav {
-        flex-wrap: wrap;
-        gap: var(--spacing-3);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--header-dark);
+        flex-direction: column;
+        gap: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-nav.mobile-menu-open {
+        max-height: 500px;
+    }
+
+    .nav-item {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-link {
+        padding: var(--spacing-3) var(--spacing-4);
+    }
+
+    .nav-dropdown {
+        position: static;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        box-shadow: none;
+        background: rgba(0, 0, 0, 0.2);
+        margin-top: 0;
+        border-radius: 0;
+    }
+
+    .header-right {
+        gap: var(--spacing-2);
+    }
+
+    .user-info {
+        display: none;
     }
 
     .footer-info {
